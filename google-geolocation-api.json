@@ -1,0 +1,270 @@
+{
+  "swagger": "2.0",
+  "basePath": "/geolocation",
+  "info": {
+    "title": "Google Maps APIs",
+    "version": "2018.1.16",
+    "description": "Google Maps APIs"
+  },
+  "host": "www.googleapis.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/geolocate": {
+      "post": {
+        "description": "Geolocation API returns a location and accuracy radius based on information about cell towers and WiFi nodes that the mobile client can detect. This document describes the protocol used to send this data to the server and to return a response to the client.",
+        "operationId": "Geolocation API",
+        "parameters": [
+          {
+            "description": "API key used for authentication.",
+            "in": "query",
+            "name": "key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "description": "The request body must be formatted as JSON.",
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/google-maps.GeolocationV1Geolocate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/google-maps.GeolocationV1Geolocate.Response"
+            },
+            "examples": {
+              "application/json": {
+                "location": {
+                  "lat": 40.5147662,
+                  "lng": -3.6647328
+                },
+                "accuracy": 1111
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        },
+        "tags": [
+          "Geolocation"
+        ],
+        "x-rate-limit": "500",
+        "x-rate-limit-interval": "min",
+        "x-rate-limit-duration": "5"
+      }
+    }
+  },
+  "definitions": {
+    "errorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        }
+      }
+    },
+    "google-maps.GeolocationV1Geolocate": {
+      "properties": {
+        "carrier": {
+          "description": "The carrier name.",
+          "type": "string",
+          "example": "Vodaphone"
+        },
+        "cellTowers": {
+          "default": [
+            {
+              "cellId": 0,
+              "locationAreaCode": 123,
+              "mobileCountryCode": 123,
+              "mobileNetworkCode": 123
+            }
+          ],
+          "description": "An array of cell tower objects.",
+          "items": {
+            "$ref": "#/definitions/google-maps.GeolocationV1GeolocateCellTower"
+          },
+          "type": "array"
+        },
+        "homeMobileCountryCode": {
+          "description": "The mobile country code (MCC) for the device's home network.",
+          "type": "integer",
+          "example": 310
+        },
+        "homeMobileNetworkCode": {
+          "description": "The mobile network code (MNC) for the device's home network.",
+          "type": "integer",
+          "example": 410
+        },
+        "radioType": {
+          "description": "The mobile radio type. Supported values are lte, gsm, cdma, and wcdma. While this field is optional, it should be included if a value is available, for more accurate results.",
+          "enum": [
+            "lte",
+            "gsm",
+            "cdma",
+            "wcdma"
+          ],
+          "type": "string",
+          "example": "WCDMA"
+        },
+        "wifiAccessPoints": {
+          "default": [
+            {
+              "macAddress": "00:00:00:00:00:00"
+            }
+          ],
+          "description": "An array of WiFi access point objects.",
+          "items": {
+            "$ref": "#/definitions/google-maps.GeolocationV1GeolocateWifiAccessPoint"
+          },
+          "type": "array"
+        }
+      },
+      "x-swgg-tags0": "google-maps"
+    },
+    "google-maps.GeolocationV1GeolocateCellTower": {
+      "properties": {
+        "age": {
+          "description": "The number of milliseconds since this cell was primary. If age is 0, the cellId represents a current measurement.",
+          "type": "integer"
+        },
+        "cellId": {
+          "description": "Unique identifier of the cell. On GSM, this is the Cell ID (CID); CDMA networks use the Base Station ID (BID). WCDMA networks use the UTRAN/GERAN Cell Identity (UC-Id), which is a 32-bit value concatenating the Radio Network Controller (RNC) and Cell ID. Specifying only the 16-bit Cell ID value in WCDMA networks may return inaccurate results.",
+          "type": "integer",
+          "example": 21532831
+        },
+        "locationAreaCode": {
+          "description": "The Location Area Code (LAC) for GSM and WCDMA networks. The Network ID (NID) for CDMA networks.",
+          "type": "integer",
+          "example": 2862
+        },
+        "mobileCountryCode": {
+          "description": "The cell tower's Mobile Country Code (MCC).",
+          "type": "integer",
+          "example": 214
+        },
+        "mobileNetworkCode": {
+          "description": "The cell tower's Mobile Network Code. This is the MNC for GSM and WCDMA; CDMA uses the System ID (SID).",
+          "type": "integer",
+          "example": 7
+        },
+        "signalStrength": {
+          "description": "Radio signal strength measured in dBm.",
+          "type": "integer"
+        },
+        "timingAdvance": {
+          "description": "The timing advance value.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cellId",
+        "locationAreaCode",
+        "mobileCountryCode",
+        "mobileNetworkCode"
+      ],
+      "x-swgg-tags0": "google-maps"
+    },
+    "google-maps.GeolocationV1GeolocateWifiAccessPoint": {
+      "properties": {
+        "age": {
+          "description": "The number of milliseconds since this access point was detected.",
+          "type": "integer"
+        },
+        "channel": {
+          "description": "The channel over which the client is communicating with the access point.",
+          "type": "integer"
+        },
+        "macAddress": {
+          "description": "The MAC address of the WiFi node. Separators must be : (colon).",
+          "type": "string"
+        },
+        "signalStrength": {
+          "description": "The current signal strength measured in dBm.",
+          "type": "integer"
+        },
+        "signalToNoiseRatio": {
+          "description": "The current signal to noise ratio measured in dB.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "macAddress"
+      ],
+      "x-swgg-tags0": "google-maps"
+    },
+    "google-maps.GeolocationV1Geolocate.Response": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "description": "The latitude of the retrieved geolocation."
+            },
+            "lng": {
+              "type": "number",
+              "description": "The longitude of the retrieved geolocation."
+            }
+          }
+        },
+        "accuracy": {
+          "type": "integer",
+          "description": "The accuracy of the retrieved geolocation measured in meters."
+        }
+      }
+    }
+  }
+}
