@@ -712,7 +712,7 @@ Helper variables:
             <i id="headerParametersCollapse-arrow" class="glyphicon glyphicon-chevron-right" style="float:right;"></i>
          </div>
          <div class="panel-body">
-            <a href="javascript:downloadSwagger();"><img src="/sites/default/files/swagger-link.png" width="200" height="60"></a></br>
+            <a href="javascript:downloadSwagger();">Download OpenAPI specification</a></br>
          </div>
       </div>
 
