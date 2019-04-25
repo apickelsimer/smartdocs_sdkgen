@@ -1341,8 +1341,7 @@ Helper variables:
       //////  CLIENT SDK GENERATOR   ////////
       
       function downloadSDK(language){
-          var apikey = "X5axzuZVriXH82wazgeJhuuOZuG71c6e";
-          var url = "https://everydaytravel-prod.apigee.net/swagger/gen/clients/" + language + "?apikey=" + apikey + "&redirect=false";
+          var url = "https://api.dynolab.io/swagger/gen/clients/" + language;
           jQuery.ajax({
               type: "POST",
               url: url,
